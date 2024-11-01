@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->integer('stock')->default(0);
             $table->integer('price');
-            $table->enum('is_delete', ['0', '1']);
-            $table->string('img');
+            $table->tinyInteger('is_delete')->default(0);
+            $table->enum('category', ['leptop', 'hp']);
             $table->timestamps();
         });
     }
