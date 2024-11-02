@@ -22,6 +22,7 @@ class ProductSeeder extends Seeder
                 'price'         => '15000000',
                 'is_delete'     => '0',
                 'category'      => 'leptop',
+                'status'        => 'completed'
             ],
             [
                 'code'          => 'P002',
@@ -31,6 +32,7 @@ class ProductSeeder extends Seeder
                 'price'         => '15000000',
                 'is_delete'     => '1',
                 'category'      => 'leptop',
+                'status'        => 'completed'
             ],
             [
                 'code'          => 'P003',
@@ -40,6 +42,7 @@ class ProductSeeder extends Seeder
                 'price'         => '25000000',
                 'is_delete'     => '0',
                 'category'      => 'hp',
+                'status'        => 'completed'
             ],
         ];
 

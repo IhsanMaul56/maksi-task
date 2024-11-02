@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -38,7 +39,7 @@ class LoginController extends Controller
             ], 401);
         }
 
-        //if auth success
+        // if auth success
         return response()->json([
             'success' => true,
             'user'    => auth()->guard('api')->user(),    
@@ -48,6 +49,6 @@ class LoginController extends Controller
 
     public function index()
     {
-        return view();
+        return view('partials.login');
     }
 }
