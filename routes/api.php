@@ -3,9 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');
 
 /**
  * route "/login"
@@ -21,4 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//CRUD product
 Route::apiResource('/product', App\Http\Controllers\Api\ProductController::class);
+
+//Restore product
+Route::put('/product/{id}/restore', [App\Http\Controllers\Api\ProductController::class, 'restore']);

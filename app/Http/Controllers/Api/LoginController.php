@@ -45,4 +45,9 @@ class LoginController extends Controller
             'token'   => $token   
         ], 200);
     }
+
+    public function index()
+    {
+        return view();
+    }
 }

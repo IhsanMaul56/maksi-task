@@ -47,7 +47,7 @@ class ProductController extends Controller
         ]);
 
         //return response
-        return new ProductResource(true, 'Data Product Berhasil Ditambahkan!', $product);
+        return new ProductResource(true, 'Product successfully created!', $product);
     }
 
     public function show($id)
@@ -55,8 +55,13 @@ class ProductController extends Controller
         //find product by ID
         $product = Product::find($id);
 
+        //check if product exists
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
         //return single product as a resource
-        return new ProductResource(true, 'Detail Data Product!', $product);
+        return new ProductResource(true, 'Product successfully show!', $product);
     }
 
     public function update(Request $request, $id)
@@ -88,6 +93,40 @@ class ProductController extends Controller
         ]);
 
         //return response
-        return new ProductResource(true, 'Data Post Berhasil Diubah!', $product);
+        return new ProductResource(true, 'Product successfully updated!', $product);
+    }
+
+    public function destroy($id)
+    {
+        //find product by ID
+        $product = Product::find($id);
+
+        // check if product exists
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        //update is_delete column to 1
+        $product->update(['is_delete' => 1]);
+
+        //return response
+        return new ProductResource(true, 'Product Successfully deleted', $product);
+    }
+
+    public function restore($id)
+    {
+        //find product by ID
+        $product = Product::find($id);
+
+        // check if product exists
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        //restore the product
+        $product->update(['is_delete' => 0]);
+
+        //return response
+        return new ProductResource(true, 'Product Successfully restored', $product);
     }
 }
