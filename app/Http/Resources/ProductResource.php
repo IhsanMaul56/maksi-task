@@ -39,7 +39,6 @@ class ProductResource extends JsonResource
             'success'   => $this->status,
             'message'   => $this->message,
             'data'      => $this->resource,
-            'status'    => $this->resource->status ?? null
         ];
     }
 }

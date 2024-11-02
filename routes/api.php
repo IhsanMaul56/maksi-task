@@ -5,23 +5,26 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-/**
- * route "/login"
- * @method "POST"
- */
-Route::post('/login', LoginController::class)->name('login');
-
-/**
- * route "/user"
- * @method "GET"
- */
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['guest'])->group(function () {
+    /**
+     * route "/login"
+     * @method "POST"
+     */
+    Route::post('/login', LoginController::class)->name('login');
+    
+    /**
+     * route "/user"
+     * @method "GET"
+     */
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
 
 /**
@@ -30,8 +33,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 Route::post('/logout', LogoutController::class)->name('logout');
 
-//CRUD product
-Route::apiResource('/product', ProductController::class);
+Route::middleware(['auth:api'])->group(function () {
+    Route::prefix('/admin')->middleware(['admin'])->group(function () {
+        //CRUD product
+        Route::apiResource('/product', ProductController::class);
+        
+        //Restore product
+        Route::put('/product/{id}/restore', [ProductController::class, 'restore']);
+    });
 
-//Restore product
-Route::put('/product/{id}/restore', [ProductController::class, 'restore']);
+    Route::prefix('/user')->middleware(['user'])->group(function () {
+        Route::get('/product', [ProductController::class, 'index']);
+    });
+});
