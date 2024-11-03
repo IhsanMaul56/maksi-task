@@ -12,6 +12,17 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    /**
+     * GET /api/admin/product
+     *
+     * Menampilkan daftar semua produk.
+     * 
+     * @access Admin, User
+     * @response 200 OK - Daftar produk berhasil ditampilkan.
+     * @response 401 Unauthorized - Jika pengguna tidak terautentikasi.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         //get data product
@@ -21,6 +32,27 @@ class ProductController extends Controller
         return new ProductResource(true, 'List Data Product', $product);
     }
 
+    /**
+     * POST /api/admin/product
+     *
+     * Menambahkan produk baru ke dalam sistem.
+     * 
+     * @access Admin only
+     * @param string $code Kode unik produk.
+     * @param string $name Nama produk.
+     * @param string $description Deskripsi produk.
+     * @param int $stock Jumlah stok produk.
+     * @param int $price Harga produk.
+     * @param string $category Kategori produk (contoh: 'leptop', 'hp').
+     * @param int $is_delete Status penghapusan (0 untuk aktif, 1 untuk soft delete).
+     * @param file $img Gambar produk.
+     * 
+     * @response 201 Created - Produk berhasil ditambahkan.
+     * @response 403 Forbidden - Jika pengguna tidak memiliki hak akses.
+     * @response 422 Unprocessable Entity - Jika data tidak valid.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         //define validation rules
@@ -77,6 +109,19 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * GET /api/admin/product/{id}
+     *
+     * Menampilkan detail produk berdasarkan ID.
+     * 
+     * @access Admin, User
+     * @param int $id ID dari produk yang ingin ditampilkan.
+     * 
+     * @response 200 OK - Detail produk berhasil ditampilkan.
+     * @response 404 Not Found - Jika produk tidak ditemukan.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         //find product by ID
@@ -91,6 +136,28 @@ class ProductController extends Controller
         return new ProductResource(true, 'Product successfully show!', $product);
     }
 
+    /**
+     * PUT /api/admin/product/{id}
+     *
+     * Memperbarui data produk berdasarkan ID.
+     * 
+     * @access Admin only
+     * @param int $id ID dari produk yang ingin diperbarui.
+     * @param string $code Kode unik produk.
+     * @param string $name Nama produk.
+     * @param string $description Deskripsi produk.
+     * @param int $stock Jumlah stok produk.
+     * @param int $price Harga produk.
+     * @param string $category Kategori produk.
+     * @param int $is_delete Status penghapusan (0 untuk aktif, 1 untuk soft delete).
+     * @param file $img Gambar produk.
+     * 
+     * @response 200 OK - Produk berhasil diperbarui.
+     * @response 403 Forbidden - Jika pengguna tidak memiliki hak akses.
+     * @response 422 Unprocessable Entity - Jika data tidak valid.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         //define validation rules
@@ -146,6 +213,20 @@ class ProductController extends Controller
         return new ProductResource(true, 'Product successfully updated!', $product);
     }
 
+    /**
+     * PUT /api/admin/product/{id}
+     *
+     * Mengubah status produk menjadi soft delete.
+     * 
+     * @access Admin only
+     * @param int $id ID dari produk yang ingin dihapus atau dipulihkan.
+     * @param int $is_delete Status penghapusan menjadi 1 untuk soft delete.
+     * 
+     * @response 200 OK - Status produk berhasil diubah.
+     * @response 403 Forbidden - Jika pengguna tidak memiliki hak akses.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         //find product by ID
@@ -163,6 +244,20 @@ class ProductController extends Controller
         return new ProductResource(true, 'Product Successfully deleted', $product);
     }
 
+    /**
+     * PUT /api/admin/product/{id}
+     *
+     * Mengubah status produk menjadi restore.
+     * 
+     * @access Admin only
+     * @param int $id ID dari produk yang ingin dihapus atau dipulihkan.
+     * @param int $is_delete Status penghapusan menjadi 0 untuk restore.
+     * 
+     * @response 200 OK - Status produk berhasil diubah.
+     * @response 403 Forbidden - Jika pengguna tidak memiliki hak akses.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function restore($id)
     {
         //find product by ID
