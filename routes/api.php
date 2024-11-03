@@ -44,5 +44,6 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::prefix('/user')->middleware(['user'])->group(function () {
         Route::get('/product', [ProductController::class, 'index']);
+        Route::get('/product/{id}', [ProductController::class, 'show']);
     });
 });

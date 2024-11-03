@@ -18,6 +18,8 @@ class AdminMiddleware
     {
         if(Auth::check() && Auth::user()->role == 'admin'){
             return $next($request);
+        } elseif (Auth::check() && Auth::user()->role != 'admin') {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
 
         abort(401);
