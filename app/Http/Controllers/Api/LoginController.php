@@ -10,10 +10,19 @@ use Illuminate\Support\Facades\Validator;
 class LoginController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * POST /api/login
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Endpoint ini digunakan untuk autentikasi pengguna dan menghasilkan token jika login berhasil.
+     *
+     * @access Public
+     * @param string $email Email pengguna yang akan login.
+     * @param string $password Kata sandi pengguna.
+     * 
+     * @response 200 OK - Login berhasil, mengembalikan token autentikasi.
+     * @response 401 Unauthorized - Kredensial tidak valid, login gagal.
+     * @response 422 Unprocessable Entity - Validasi input gagal (email atau password tidak diisi).
+     * 
+     * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(Request $request)
     {
